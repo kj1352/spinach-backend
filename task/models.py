@@ -11,3 +11,10 @@ class Task(models.Model):
 
     def __str__(self):
         return self.user.name + ' - ' + self.title
+
+
+
+class Blocker(models.Model):
+    description = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    working_date = models.DateField()
