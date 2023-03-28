@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task, Blockers
+from .models import Task, Blocker
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -10,5 +10,5 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class BlockerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Blockers
+        model = Blocker
         fields = '__all__'
