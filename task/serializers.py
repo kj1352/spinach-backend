@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Task, Blocker
-
+from .models import Task, Blocker, User
+from django.contrib.auth import authenticate
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,3 +12,8 @@ class BlockerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blocker
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password']
