@@ -1,5 +1,5 @@
-from .models import Task, Blocker
-from .serializers import TaskSerializer,BlockerSerializer
+from .models import Task, Blocker,Standup
+from .serializers import TaskSerializer,BlockerSerializer,StandupSerializer
 from rest_framework import viewsets
 from datetime import datetime, timedelta
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -31,7 +31,7 @@ class BlockerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 class LoginView(ObtainAuthToken):
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication)
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,context={'request': request})
@@ -47,3 +47,18 @@ class SomeAuthenticatedView(APIView):
         user = request.user
         # Do something with the authenticated user
         return Response({'message': f'Hello, {user.username}!'})    
+    
+class StandupViewSet(viewsets.ModelViewSet):
+    serializer_class = StandupSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Standup.objects.all()
+        user_id = self.request.query_params.get('user_id', None)
+        if user_id is not None:
+            queryset = queryset.filter(user_id=user_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)    

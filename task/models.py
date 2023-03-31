@@ -25,3 +25,10 @@ class Token(models.Model):
 
     def __str__(self):
         return self.key
+    
+class Standup(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    date = models.DateField(auto_now_add=True)
+    yesterday = models.TextField()
+    today = models.TextField()
+    blockers = models.TextField(null=True, blank=True)

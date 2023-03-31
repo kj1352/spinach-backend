@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from task.views import TaskViewSet, ReportViewSet, BlockerViewSet
-from rest_framework.authtoken import views
+from task.views import TaskViewSet, ReportViewSet, BlockerViewSet, StandupViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.register(r'blocker', BlockerViewSet)
+router.register(r'standup', StandupViewSet, basename='standup')
 router.register(r'tasks', TaskViewSet)
 router.register(r'report', ReportViewSet, basename='report')
 
