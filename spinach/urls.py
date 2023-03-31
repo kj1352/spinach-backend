@@ -21,16 +21,18 @@ from rest_framework.authtoken import views
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
-router.register(r'tasks', TaskViewSet)
 router.register(r'task-report', ReportViewSet)
 router.register(r'blocker', BlockerViewSet)
+router.register(r'tasks', TaskViewSet)
+
 
 
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('login/', obtain_auth_token, name='api_token_auth'),
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token),
-    path('api/', include(router.urls)),
+    
 ]

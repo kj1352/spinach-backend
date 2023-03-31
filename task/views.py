@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    authentication_classes = [TokenAuthentication], SessionAuthentication
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
 class ReportViewSet(viewsets.ReadOnlyModelViewSet):
