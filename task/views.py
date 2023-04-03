@@ -2,7 +2,7 @@ from .models import Task, Blocker,Standup
 from .serializers import TaskSerializer,BlockerSerializer,StandupSerializer
 from rest_framework import viewsets
 from datetime import datetime, timedelta
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
 class ReportViewSet(viewsets.ReadOnlyModelViewSet):
@@ -27,7 +27,7 @@ class ReportViewSet(viewsets.ReadOnlyModelViewSet):
 class BlockerViewSet(viewsets.ModelViewSet):    
     queryset = Blocker.objects.all()
     serializer_class = BlockerSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
 class LoginView(ObtainAuthToken):

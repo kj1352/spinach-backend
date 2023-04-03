@@ -6,7 +6,7 @@ from django.db import models
 class Task(models.Model):
     title = models.CharField(max_length=140)
     description = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.CharField(max_length=25)
     working_date = models.DateField()
 
     def __str__(self):
@@ -16,7 +16,7 @@ class Task(models.Model):
 
 class Blocker(models.Model):
     description = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.CharField(max_length=25)
     working_date = models.DateField()
 
 class Token(models.Model):
