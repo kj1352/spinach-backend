@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from task.views import TaskViewSet, ReportViewSet, BlockerViewSet, StandupViewSet
+from task.views import TaskViewSet, ReportViewSet, BlockerViewSet, StandupViewSet,UserViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
@@ -29,6 +29,7 @@ router.register(r'report', ReportViewSet, basename='report')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('signup/', UserViewSet.as_view({'post': 'signup'}), name='signup'),
     path('admin/', admin.site.urls),
     path('login/', obtain_auth_token, name='api_token_auth'),
     path('api-auth/', include('rest_framework.urls')),

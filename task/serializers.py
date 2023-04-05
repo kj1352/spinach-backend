@@ -1,7 +1,19 @@
 from rest_framework import serializers
-from .models import Task, Blocker, User, Standup
+from .models import Task, Blocker, User, Standup,CustomUser
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password')
+
+    def create(self, validated_data):
+        user = CustomUser(username=validated_data['username'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+    
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task

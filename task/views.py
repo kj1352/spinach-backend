@@ -1,14 +1,29 @@
 from .models import Task, Blocker,Standup
-from .serializers import TaskSerializer,BlockerSerializer,StandupSerializer
-from rest_framework import viewsets
+from .serializers import TaskSerializer,BlockerSerializer,StandupSerializer,UserSerializer
+from rest_framework import viewsets,status
 from datetime import datetime, timedelta
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
 
+class UserViewSet(viewsets.ViewSet):
+    serializer_class = UserSerializer
+    
+    @action(detail=False, methods=['post'])
+    def signup(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create_user(
+                username=serializer.validated_data['username'],
+                password=serializer.validated_data['password']
+            )
+            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()

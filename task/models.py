@@ -1,6 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import AbstractUser,Group,Permission
 
+class CustomUser(AbstractUser):
+    groups = models.ManyToManyField(
+        Group,
+        blank=True,
+        related_name='custom_users'
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        blank=True,
+        related_name='custom_users'
+    )
 
 # Create your models here.
 class Task(models.Model):
