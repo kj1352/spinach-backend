@@ -3,7 +3,7 @@ from .serializers import TaskSerializer,BlockerSerializer,StandupSerializer,User
 from rest_framework import viewsets,status
 from datetime import datetime, timedelta
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -13,7 +13,8 @@ from django.contrib.auth.models import User
 
 class UserViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
-    
+    authentication_classes = []
+    permission_classes = [AllowAny]
     @action(detail=False, methods=['post'])
     def signup(self, request):
         serializer = self.serializer_class(data=request.data)
